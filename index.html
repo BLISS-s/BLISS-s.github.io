@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoHub - Каталог автомобилей</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Шапка сайта с красивым градиентом -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <span class="logo-text">Auto<span class="highlight">Hub</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#catalog" class="nav-link">Каталог</a></li>
+                <li><a href="#brands" class="nav-link">Марки</a></li>
+                <li><a href="#" class="nav-link" onclick="openCompareModal(); return false;">Сравнение <span class="compare-badge" id="compareBadge"></span></a></li>
+                <li class="user-menu" id="userMenu">
+                    <div class="user-menu-trigger" onclick="toggleUserDropdown()">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userNameDisplay">Личный кабинет</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" onclick="openProfileModal(); return false;"><i class="fas fa-user"></i> Мой профиль</a>
+                        <a href="#" onclick="openFavoritesModal(); return false;"><i class="fas fa-heart"></i> Избранное</a>
+                        <a href="#" onclick="openHistoryModal(); return false;"><i class="fas fa-history"></i> История</a>
+                        <a href="#" onclick="openTestDriveHistoryModal(); return false;"><i class="fas fa-calendar-check"></i> Тест-драйвы</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                    </div>
+                </li>
+            </ul>
+            <button class="btn btn-primary" id="authButton" onclick="openAuthModal()">Войти</button>
+        </nav>
+    </header>
+
+    <!-- Красивая герой секция с градиентом -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Найдите идеальный<br>автомобиль</h1>
+            <p class="hero-subtitle">Просматривайте характеристики, сравнивайте модели и находите лучшие предложения</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Поиск по марке, модели или году..." class="search-input" id="searchInput">
+                <button class="btn btn-primary btn-large" onclick="performSearch()">Найти</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Стильные фильтры -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <select class="filter-select" id="brandFilter">
+                    <option>Все марки</option>
+                    <option>Toyota</option>
+                    <option>BMW</option>
+                    <option>Mercedes-Benz</option>
+                    <option>Audi</option>
+                    <option>Honda</option>
+                    <option>Lexus</option>
+                </select>
+                <select class="filter-select" id="yearFilter">
+                    <option>Любой год</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                </select>
+                <select class="filter-select" id="priceFilter">
+                    <option>Любая цена</option>
+                    <option>до 1 000 000 ₽</option>
+                    <option>1 000 000 - 2 000 000 ₽</option>
+                    <option>2 000 000 - 3 000 000 ₽</option>
+                    <option>3 000 000 - 5 000 000 ₽</option>
+                    <option>более 5 000 000 ₽</option>
+                </select>
+                <button class="btn btn-secondary" onclick="applyFilters()">Применить фильтры</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Красивый каталог автомобилей -->
+    <section id="catalog" class="catalog">
+        <div class="container">
+            <h2 class="section-title">Популярные модели</h2>
+            <div class="cars-grid" id="carsGrid">
+                <!-- Карточки будут добавляться динамически -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Стильные бренды -->
+    <section id="brands" class="brands">
+        <div class="container">
+            <h2 class="section-title">Популярные бренды</h2>
+            <div class="brands-grid">
+                <div class="brand-card" onclick="filterByBrand('Toyota')">
+                    <img src="https://via.placeholder.com/150x150?text=Toyota" alt="Toyota">
+                    <h3>Toyota</h3>
+                    <p>15 моделей</p>
+                </div>
+                <div class="brand-card" onclick="filterByBrand('BMW')">
+                    <img src="https://via.placeholder.com/150x150?text=BMW" alt="BMW">
+                    <h3>BMW</h3>
+                    <p>12 моделей</p>
+                </div>
+                <div class="brand-card" onclick="filterByBrand('Mercedes-Benz')">
+                    <img src="https://via.placeholder.com/150x150?text=Mercedes" alt="Mercedes">
+                    <h3>Mercedes-Benz</h3>
+                    <p>14 моделей</p>
+                </div>
+                <div class="brand-card" onclick="filterByBrand('Audi')">
+                    <img src="https://via.placeholder.com/150x150?text=Audi" alt="Audi">
+                    <h3>Audi</h3>
+                    <p>10 моделей</p>
+                </div>
+                <div class="brand-card" onclick="filterByBrand('Honda')">
+                    <img src="https://via.placeholder.com/150x150?text=Honda" alt="Honda">
+                    <h3>Honda</h3>
+                    <p>8 моделей</p>
+                </div>
+                <div class="brand-card" onclick="filterByBrand('Lexus')">
+                    <img src="https://via.placeholder.com/150x150?text=Lexus" alt="Lexus">
+                    <h3>Lexus</h3>
+                    <p>9 моделей</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно авторизации (стильное) -->
+    <div id="authModal" class="modal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Личный кабинет</h2>
+                <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
+                    <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
+                </div>
+                
+                <!-- Форма входа -->
+                <form id="loginForm" class="auth-form active" onsubmit="login(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Введите ваш email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Пароль</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Введите пароль" required>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Запомнить меня</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Войти</button>
+                </form>
+                
+                <!-- Форма регистрации -->
+                <form id="registerForm" class="auth-form" onsubmit="register(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regFirstName">Имя</label>
+                            <input type="text" id="regFirstName" class="form-control" placeholder="Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regLastName">Фамилия</label>
+                            <input type="text" id="regLastName" class="form-control" placeholder="Фамилия" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone">Телефон</label>
+                        <input type="tel" id="regPhone" class="form-control" placeholder="+7 (999) 999-99-99" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regPassword">Пароль</label>
+                            <input type="password" id="regPassword" class="form-control" placeholder="Пароль" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regConfirmPassword">Подтверждение</label>
+                            <input type="password" id="regConfirmPassword" class="form-control" placeholder="Повторите пароль" required>
+                        </div>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">Я принимаю условия пользовательского соглашения</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно профиля -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Мой профиль</h2>
+                <button class="close-btn" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                    <button class="btn btn-secondary" onclick="changeAvatar()">Изменить фото</button>
+                </div>
+                
+                <form id="profileForm" onsubmit="updateProfile(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileFirstName">Имя</label>
+                            <input type="text" id="profileFirstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLastName">Фамилия</label>
+                            <input type="text" id="profileLastName" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePhone">Телефон</label>
+                            <input type="tel" id="profilePhone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileCity">Город</label>
+                            <input type="text" id="profileCity" class="form-control" placeholder="Город">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileAddress">Адрес</label>
+                            <input type="text" id="profileAddress" class="form-control" placeholder="Адрес">
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 15px; color: #333; font-size: 18px;">Смена пароля</h3>
+                    
+                    <div class="form-group">
+                        <label for="currentPassword">Текущий пароль</label>
+                        <input type="password" id="currentPassword" class="form-control" placeholder="Текущий пароль">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newPassword">Новый пароль</label>
+                            <input type="password" id="newPassword" class="form-control" placeholder="Новый пароль">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Подтверждение</label>
+                            <input type="password" id="confirmNewPassword" class="form-control" placeholder="Подтвердите пароль">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно избранного -->
+    <div id="favoritesModal" class="modal">
+        <div class="modal-content favorites-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Избранные автомобили</h2>
+                <button class="close-btn" onclick="closeFavoritesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="favorites-grid" id="favoritesGrid">
+                    <!-- Избранные авто будут загружаться сюда -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно истории просмотров -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content history-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>История просмотров</h2>
+                <button class="close-btn" onclick="closeHistoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="history-list" id="historyList">
+                    <!-- История просмотров будет загружаться сюда -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно истории тест-драйвов -->
+    <div id="testDriveHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Мои тест-драйвы</h2>
+                <button class="close-btn" onclick="closeTestDriveHistoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="testdrive-list" id="testDriveHistoryList">
+                    <!-- История тест-драйвов будет загружаться сюда -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно сравнения -->
+    <div id="compareModal" class="modal">
+        <div class="modal-content compare-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Сравнение автомобилей</h2>
+                <button class="close-btn" onclick="closeCompareModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="compare-controls">
+                    <button class="btn btn-secondary" onclick="clearComparison()">Очистить список</button>
+                    <span class="compare-count" id="compareCount">Выбрано: 0/3</span>
+                </div>
+                <div class="compare-grid" id="compareGrid">
+                    <!-- Сюда будут добавляться карточки для сравнения -->
+                </div>
+                <div class="compare-actions">
+                    <button class="btn btn-primary" onclick="compareCars()" id="compareBtn" disabled>Сравнить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно записи на тест-драйв -->
+    <div id="testDriveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Запись на тест-драйв</h2>
+                <button class="close-btn" onclick="closeTestDriveModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="testDriveForm" onsubmit="submitTestDrive(event)">
+                    <div class="form-group">
+                        <label for="carModel">Выберите автомобиль</label>
+                        <select id="carModel" class="form-control" required>
+                            <option value="">-- Выберите модель --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Имя</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Фамилия</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Фамилия" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (999) 999-99-99" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Дата</label>
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Время</label>
+                            <select id="time" class="form-control" required>
+                                <option value="">-- Выберите время --</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dealership">Дилерский центр</label>
+                        <select id="dealership" class="form-control" required>
+                            <option value="">-- Выберите дилерский центр --</option>
+                            <option value="AutoHub Центр (Москва, ул. Ленина, 10)">AutoHub Центр (Москва, ул. Ленина, 10)</option>
+                            <option value="AutoHub Север (Москва, ул. Дыбенко, 5)">AutoHub Север (Москва, ул. Дыбенко, 5)</option>
+                            <option value="AutoHub Юг (Москва, Каширское шоссе, 25)">AutoHub Юг (Москва, Каширское шоссе, 25)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comments">Комментарий</label>
+                        <textarea id="comments" class="form-control" rows="3" placeholder="Дополнительные пожелания..."></textarea>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="agree" required>
+                        <label for="agree">Я согласен на обработку персональных данных</label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">Записаться на тест-драйв</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Красивый подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AutoHub</h3>
+                    <p>Ваш надежный помощник в выборе автомобиля</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="#catalog">Каталог</a></li>
+                        <li><a href="#brands">Марки</a></li>
+                        <li><a href="#" onclick="openCompareModal(); return false;">Сравнение</a></li>
+                        <li><a href="#" onclick="openTestDriveModal(); return false;">Тест-драйв</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Личный кабинет</h4>
+                    <ul>
+                        <li><a href="#" onclick="openAuthModal(); return false;">Вход</a></li>
+                        <li><a href="#" onclick="openAuthModal(); return false;">Регистрация</a></li>
+                        <li><a href="#" onclick="openFavoritesModal(); return false;">Избранное</a></li>
+                        <li><a href="#" onclick="openHistoryModal(); return false;">История</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@autohub.ru</p>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Автомобильная, 1</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AutoHub. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Уведомления -->
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
