@@ -195,7 +195,7 @@ body {
 
 .cars-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
 }
 
@@ -330,6 +330,15 @@ body {
 
 .btn-compare:hover {
     background: #5a67d8;
+}
+
+.btn-3dtour {
+    background: #9f7aea;
+    color: white;
+}
+
+.btn-3dtour:hover {
+    background: #805ad5;
 }
 
 .btn-testdrive {
@@ -1102,7 +1111,6 @@ textarea.form-control {
 .compare-card .car-image-small {
     width: 100%;
     height: 150px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 8px;
     margin-bottom: 15px;
     overflow: hidden;
@@ -1262,6 +1270,260 @@ textarea.form-control {
     to { transform: rotate(360deg); }
 }
 
+/* ==================== СТИЛИ ДЛЯ ОТЗЫВОВ ==================== */
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #ddd;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.rating-stars .filled {
+    color: #fbbf24;
+}
+
+.rating-stars .average-rating {
+    margin-left: 5px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.rating-stars .reviews-count {
+    margin-left: 5px;
+    color: #666;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.rating-input {
+    display: flex;
+    gap: 5px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+.rating-input i {
+    transition: color 0.2s;
+}
+
+.rating-input i.fa-solid,
+.rating-input i.selected {
+    color: #fbbf24;
+}
+
+.rating-input i.selected ~ i {
+    color: #ddd;
+}
+
+.reviews-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.review-item {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background: #fafafa;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author i {
+    font-size: 24px;
+    color: #667eea;
+}
+
+.review-author-info h4 {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.review-author-info span {
+    font-size: 12px;
+    color: #999;
+}
+
+.review-rating {
+    display: flex;
+    gap: 2px;
+    color: #fbbf24;
+    font-size: 14px;
+}
+
+.review-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.review-pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ddd;
+    font-size: 14px;
+}
+
+.review-pros span, .review-cons span {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.review-pros span { color: #48bb78; }
+.review-cons span { color: #f56565; }
+
+.review-pros p, .review-cons p {
+    color: #666;
+    font-style: italic;
+}
+
+.btn-write-review {
+    background: #fbbf24;
+    color: #1a1a2e;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-write-review:hover {
+    background: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
+}
+
+/* ==================== 3D ТУР ==================== */
+.tour-container {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tour-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tour-control-btn {
+    padding: 12px 25px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tour-control-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tour-control-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.tour-hotspot {
+    background: rgba(102, 126, 234, 0.9);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.tour-hotspot:hover {
+    transform: scale(1.2);
+    background: #667eea;
+}
+
+.hotspot-tooltip {
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+    display: none;
+}
+
+.tour-hotspot:hover .hotspot-tooltip {
+    display: block;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #9f7aea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .hero-title {
@@ -1340,5 +1602,22 @@ textarea.form-control {
     
     .testdrive-actions {
         flex-direction: column;
+    }
+    
+    .review-pros-cons {
+        grid-template-columns: 1fr;
+    }
+    
+    .tour-container {
+        height: 300px;
+    }
+    
+    .tour-controls {
+        flex-direction: column;
+    }
+    
+    .tour-control-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
