@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Шапка сайта с красивым градиентом -->
+    <!-- Шапка сайта -->
     <header class="header">
         <nav class="nav container">
             <div class="logo">
@@ -39,7 +39,7 @@
         </nav>
     </header>
 
-    <!-- Красивая герой секция с градиентом -->
+    <!-- Герой секция -->
     <section class="hero">
         <div class="container">
             <h1 class="hero-title">Найдите идеальный<br>автомобиль</h1>
@@ -51,25 +51,15 @@
         </div>
     </section>
 
-    <!-- Стильные фильтры -->
+    <!-- Фильтры -->
     <section class="filters-section">
         <div class="container">
             <div class="filters">
                 <select class="filter-select" id="brandFilter">
                     <option>Все марки</option>
-                    <option>Toyota</option>
-                    <option>BMW</option>
-                    <option>Mercedes-Benz</option>
-                    <option>Audi</option>
-                    <option>Honda</option>
-                    <option>Lexus</option>
                 </select>
                 <select class="filter-select" id="yearFilter">
                     <option>Любой год</option>
-                    <option>2024</option>
-                    <option>2023</option>
-                    <option>2022</option>
-                    <option>2021</option>
                 </select>
                 <select class="filter-select" id="priceFilter">
                     <option>Любая цена</option>
@@ -84,7 +74,7 @@
         </div>
     </section>
 
-    <!-- Красивый каталог автомобилей -->
+    <!-- Каталог -->
     <section id="catalog" class="catalog">
         <div class="container">
             <h2 class="section-title">Популярные модели</h2>
@@ -94,46 +84,17 @@
         </div>
     </section>
 
-    <!-- Стильные бренды -->
+    <!-- Бренды -->
     <section id="brands" class="brands">
         <div class="container">
             <h2 class="section-title">Популярные бренды</h2>
-            <div class="brands-grid">
-                <div class="brand-card" onclick="filterByBrand('Toyota')">
-                    <img src="https://via.placeholder.com/150x150?text=Toyota" alt="Toyota">
-                    <h3>Toyota</h3>
-                    <p>15 моделей</p>
-                </div>
-                <div class="brand-card" onclick="filterByBrand('BMW')">
-                    <img src="https://via.placeholder.com/150x150?text=BMW" alt="BMW">
-                    <h3>BMW</h3>
-                    <p>12 моделей</p>
-                </div>
-                <div class="brand-card" onclick="filterByBrand('Mercedes-Benz')">
-                    <img src="https://via.placeholder.com/150x150?text=Mercedes" alt="Mercedes">
-                    <h3>Mercedes-Benz</h3>
-                    <p>14 моделей</p>
-                </div>
-                <div class="brand-card" onclick="filterByBrand('Audi')">
-                    <img src="https://via.placeholder.com/150x150?text=Audi" alt="Audi">
-                    <h3>Audi</h3>
-                    <p>10 моделей</p>
-                </div>
-                <div class="brand-card" onclick="filterByBrand('Honda')">
-                    <img src="https://via.placeholder.com/150x150?text=Honda" alt="Honda">
-                    <h3>Honda</h3>
-                    <p>8 моделей</p>
-                </div>
-                <div class="brand-card" onclick="filterByBrand('Lexus')">
-                    <img src="https://via.placeholder.com/150x150?text=Lexus" alt="Lexus">
-                    <h3>Lexus</h3>
-                    <p>9 моделей</p>
-                </div>
+            <div class="brands-grid" id="brandsGrid">
+                <!-- Бренды будут загружаться динамически -->
             </div>
         </div>
     </section>
 
-    <!-- Модальное окно авторизации (стильное) -->
+    <!-- Модальное окно авторизации -->
     <div id="authModal" class="modal">
         <div class="modal-content auth-modal">
             <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
@@ -146,7 +107,6 @@
                     <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
                 </div>
                 
-                <!-- Форма входа -->
                 <form id="loginForm" class="auth-form active" onsubmit="login(event)">
                     <div class="form-group">
                         <label for="loginEmail">Email</label>
@@ -163,7 +123,6 @@
                     <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Войти</button>
                 </form>
                 
-                <!-- Форма регистрации -->
                 <form id="registerForm" class="auth-form" onsubmit="register(event)">
                     <div class="form-row">
                         <div class="form-group">
@@ -431,14 +390,69 @@
         </div>
     </div>
 
-    <!-- Красивый подвал -->
+    <!-- Модальное окно добавления отзыва -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h2>Оставить отзыв</h2>
+                <button class="close-btn" onclick="closeReviewModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm" onsubmit="submitReview(event)">
+                    <input type="hidden" id="reviewCarId" value="">
+                    <div class="form-group">
+                        <label for="carModelDisplay">Автомобиль</label>
+                        <input type="text" id="carModelDisplay" class="form-control" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ваша оценка</label>
+                        <div class="rating-input">
+                            <i class="fa-regular fa-star" data-rating="1"></i>
+                            <i class="fa-regular fa-star" data-rating="2"></i>
+                            <i class="fa-regular fa-star" data-rating="3"></i>
+                            <i class="fa-regular fa-star" data-rating="4"></i>
+                            <i class="fa-regular fa-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="reviewRating" value="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewTitle">Заголовок отзыва</label>
+                        <input type="text" id="reviewTitle" class="form-control" placeholder="Например: Отличный автомобиль!" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewText">Текст отзыва</label>
+                        <textarea id="reviewText" class="form-control" rows="4" placeholder="Поделитесь своим опытом..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewPros">Достоинства (необязательно)</label>
+                        <input type="text" id="reviewPros" class="form-control" placeholder="Например: Комфорт, динамика">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewCons">Недостатки (необязательно)</label>
+                        <input type="text" id="reviewCons" class="form-control" placeholder="Например: Шумоизоляция">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">Опубликовать отзыв</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>AutoHub</h3>
                     <p>Ваш надежный помощник в выборе автомобиля</p>
-                    <div class="social-links">
+                    <div class="social-links" id="socialLinks">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
@@ -463,7 +477,7 @@
                         <li><a href="#" onclick="openHistoryModal(); return false;">История</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
+                <div class="footer-section" id="contactsSection">
                     <h4>Контакты</h4>
                     <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
                     <p><i class="fas fa-envelope"></i> info@autohub.ru</p>
