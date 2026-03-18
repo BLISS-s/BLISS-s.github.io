@@ -1,128 +1,162 @@
-// Данные автомобилей
-const carsData = [
-    {
-        id: 1,
-        brand: 'Toyota',
-        model: 'Camry',
-        year: 2024,
-        price: 2800000,
-        engine: '2.5L',
-        power: 181,
-        transmission: 'Автомат',
-        drive: 'Передний',
-        fuel: 'Бензин',
-        consumption: '7.8',
-        image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500',
-        tag: 'Новинка'
-    },
-    {
-        id: 2,
-        brand: 'BMW',
-        model: 'X5',
-        year: 2024,
-        price: 8500000,
-        engine: '3.0L',
-        power: 340,
-        transmission: 'Автомат',
-        drive: 'Полный',
-        fuel: 'Бензин',
-        consumption: '9.5',
-        image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500',
-        tag: 'Премиум'
-    },
-    {
-        id: 3,
-        brand: 'Mercedes-Benz',
-        model: 'E-Class',
-        year: 2023,
-        price: 7200000,
-        engine: '2.0L',
-        power: 249,
-        transmission: 'Автомат',
-        drive: 'Задний',
-        fuel: 'Бензин',
-        consumption: '7.2',
-        image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f84f8?w=500',
-        tag: 'Хит'
-    },
-    {
-        id: 4,
-        brand: 'Audi',
-        model: 'Q7',
-        year: 2024,
-        price: 7800000,
-        engine: '3.0L',
-        power: 333,
-        transmission: 'Автомат',
-        drive: 'Полный',
-        fuel: 'Бензин',
-        consumption: '8.9',
-        image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=500',
-        tag: 'Новинка'
-    },
-    {
-        id: 5,
-        brand: 'Honda',
-        model: 'Accord',
-        year: 2023,
-        price: 3200000,
-        engine: '2.0L',
-        power: 190,
-        transmission: 'Вариатор',
-        drive: 'Передний',
-        fuel: 'Бензин',
-        consumption: '6.5',
-        image: 'https://images.unsplash.com/photo-1619767886558-efdc7b9e0473?w=500',
-        tag: 'Эконом'
-    },
-    {
-        id: 6,
-        brand: 'Lexus',
-        model: 'RX 350',
-        year: 2024,
-        price: 6800000,
-        engine: '3.5L',
-        power: 300,
-        transmission: 'Автомат',
-        drive: 'Полный',
-        fuel: 'Бензин',
-        consumption: '9.2',
-        image: 'https://images.unsplash.com/photo-1626668011440-3c5b6c0d3c3c?w=500',
-        tag: 'Премиум'
-    }
-];
-
-// Данные пользователя
-let currentUser = null;
+// ==================== ДАННЫЕ ====================
+let carsData = JSON.parse(localStorage.getItem('carsData') || '[]');
 let users = JSON.parse(localStorage.getItem('users') || '[]');
 let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 let viewHistory = JSON.parse(localStorage.getItem('viewHistory') || '[]');
 let testDriveHistory = JSON.parse(localStorage.getItem('testDriveHistory') || '[]');
-
-// Массив для хранения выбранных автомобилей для сравнения
+let reviews = JSON.parse(localStorage.getItem('carReviews') || '[]');
+let currentUser = null;
 let comparisonList = JSON.parse(localStorage.getItem('comparisonList') || '[]').map(id => 
     carsData.find(car => car.id === id)
 ).filter(car => car);
 
+// Загружаем настройки сайта
+let siteSettings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+
+// Если carsData пустой, загружаем начальные данные
+if (carsData.length === 0) {
+    carsData = [
+        {
+            id: 1,
+            brand: 'Toyota',
+            model: 'Camry',
+            year: 2024,
+            price: 2800000,
+            engine: '2.5L',
+            power: 181,
+            transmission: 'Автомат',
+            drive: 'Передний',
+            fuel: 'Бензин',
+            consumption: '7.8',
+            image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500',
+            tag: 'Новинка',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        },
+        {
+            id: 2,
+            brand: 'BMW',
+            model: 'X5',
+            year: 2024,
+            price: 8500000,
+            engine: '3.0L',
+            power: 340,
+            transmission: 'Автомат',
+            drive: 'Полный',
+            fuel: 'Бензин',
+            consumption: '9.5',
+            image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500',
+            tag: 'Премиум',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        },
+        {
+            id: 3,
+            brand: 'Mercedes-Benz',
+            model: 'E-Class',
+            year: 2023,
+            price: 7200000,
+            engine: '2.0L',
+            power: 249,
+            transmission: 'Автомат',
+            drive: 'Задний',
+            fuel: 'Бензин',
+            consumption: '7.2',
+            image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f84f8?w=500',
+            tag: 'Хит',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        },
+        {
+            id: 4,
+            brand: 'Audi',
+            model: 'Q7',
+            year: 2024,
+            price: 7800000,
+            engine: '3.0L',
+            power: 333,
+            transmission: 'Автомат',
+            drive: 'Полный',
+            fuel: 'Бензин',
+            consumption: '8.9',
+            image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=500',
+            tag: 'Новинка',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        },
+        {
+            id: 5,
+            brand: 'Honda',
+            model: 'Accord',
+            year: 2023,
+            price: 3200000,
+            engine: '2.0L',
+            power: 190,
+            transmission: 'Вариатор',
+            drive: 'Передний',
+            fuel: 'Бензин',
+            consumption: '6.5',
+            image: 'https://images.unsplash.com/photo-1619767886558-efdc7b9e0473?w=500',
+            tag: 'Эконом',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        },
+        {
+            id: 6,
+            brand: 'Lexus',
+            model: 'RX 350',
+            year: 2024,
+            price: 6800000,
+            engine: '3.5L',
+            power: 300,
+            transmission: 'Автомат',
+            drive: 'Полный',
+            fuel: 'Бензин',
+            consumption: '9.2',
+            image: 'https://images.unsplash.com/photo-1626668011440-3c5b6c0d3c3c?w=500',
+            tag: 'Премиум',
+            image360: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/2294472375_24a3b8ef46_o.jpg'
+        }
+    ];
+    localStorage.setItem('carsData', JSON.stringify(carsData));
+}
+
 // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
 
-// Форматирование цены
 function formatPrice(price) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
 }
 
-// Создание карточки автомобиля
+function generateStarRating(rating) {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    let starsHtml = '';
+
+    for (let i = 1; i <= 5; i++) {
+        if (i <= fullStars) {
+            starsHtml += '<i class="fa-solid fa-star filled"></i>';
+        } else if (i === fullStars + 1 && halfStar) {
+            starsHtml += '<i class="fa-solid fa-star-half-alt filled"></i>';
+        } else {
+            starsHtml += '<i class="fa-regular fa-star"></i>';
+        }
+    }
+    return starsHtml;
+}
+
+// ==================== ОТОБРАЖЕНИЕ КАРТОЧЕК ====================
+
 function createCarCard(car) {
     const isInComparison = comparisonList.some(c => c && c.id === car.id);
     const isInFavorites = currentUser && favorites.some(f => f.userId === currentUser.id && f.carId === car.id);
     const compareButtonText = isInComparison ? 'В сравнении' : 'Сравнить';
     const compareButtonStyle = isInComparison ? '#48bb78' : '#667eea';
     
+    const carReviews = reviews.filter(r => r.carId === car.id);
+    const averageRating = carReviews.length > 0 
+        ? (carReviews.reduce((sum, r) => sum + r.rating, 0) / carReviews.length).toFixed(1)
+        : 0;
+    
     return `
         <div class="car-card" data-id="${car.id}">
             <div class="car-image">
                 <img src="${car.image}" alt="${car.brand} ${car.model}" onerror="this.src='https://via.placeholder.com/500x300?text=${car.brand}+${car.model}'">
-                <span class="car-tag">${car.tag}</span>
+                <span class="car-tag">${car.tag || ''}</span>
             </div>
             <div class="car-info">
                 <div class="car-header">
@@ -130,6 +164,13 @@ function createCarCard(car) {
                     <span class="car-year">${car.year}</span>
                 </div>
                 <div class="car-price">${formatPrice(car.price)}</div>
+                
+                <div class="rating-stars">
+                    ${generateStarRating(averageRating)}
+                    <span class="average-rating">${averageRating}</span>
+                    <span class="reviews-count">(${carReviews.length} отзывов)</span>
+                </div>
+                
                 <div class="car-specs">
                     <div class="spec-item">
                         <span class="spec-label">Двигатель</span>
@@ -147,6 +188,9 @@ function createCarCard(car) {
                 <div class="car-actions">
                     <button class="btn-card btn-details" onclick="showCarDetails(${car.id})">Подробнее</button>
                     <button class="btn-card btn-compare" onclick="${isInComparison ? `removeFromComparison(${car.id})` : `addToComparison(${car.id})`}" style="background: ${compareButtonStyle}">${compareButtonText}</button>
+                    <button class="btn-card btn-3dtour" onclick="open3DTour(${car.id})">
+                        <i class="fas fa-vr-cardboard"></i> 3D Тур
+                    </button>
                 </div>
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button class="btn-testdrive" onclick="openTestDriveModal(${car.id})" style="flex: 2;">Тест-драйв</button>
@@ -159,7 +203,6 @@ function createCarCard(car) {
     `;
 }
 
-// Отображение всех автомобилей
 function displayCars() {
     const carsGrid = document.getElementById('carsGrid');
     if (carsGrid) {
@@ -167,21 +210,71 @@ function displayCars() {
     }
 }
 
-// Показ детальной информации
+function loadBrands() {
+    const brandsGrid = document.getElementById('brandsGrid');
+    if (!brandsGrid) return;
+    
+    const brands = {};
+    carsData.forEach(car => {
+        if (!brands[car.brand]) {
+            brands[car.brand] = {
+                count: 1,
+                image: `https://via.placeholder.com/150x150?text=${car.brand}`
+            };
+        } else {
+            brands[car.brand].count++;
+        }
+    });
+    
+    brandsGrid.innerHTML = Object.entries(brands).map(([brand, data]) => `
+        <div class="brand-card" onclick="filterByBrand('${brand}')">
+            <img src="${data.image}" alt="${brand}">
+            <h3>${brand}</h3>
+            <p>${data.count} моделей</p>
+        </div>
+    `).join('');
+}
+
+function updateBrandsFilter() {
+    const brandFilter = document.getElementById('brandFilter');
+    if (!brandFilter) return;
+    
+    const brands = ['Все марки', ...new Set(carsData.map(car => car.brand))];
+    brandFilter.innerHTML = brands.map(brand => 
+        `<option>${brand}</option>`
+    ).join('');
+}
+
+function updateYearFilter() {
+    const yearFilter = document.getElementById('yearFilter');
+    if (!yearFilter) return;
+    
+    const years = ['Любой год', ...new Set(carsData.map(car => car.year))];
+    yearFilter.innerHTML = years.map(year => 
+        `<option>${year}</option>`
+    ).join('');
+}
+
+// ==================== ДЕТАЛЬНАЯ ИНФОРМАЦИЯ ====================
+
 function showCarDetails(carId) {
     const car = carsData.find(c => c.id === carId);
+    if (!car) return;
     
-    // Добавляем в историю просмотров
     if (currentUser) {
         addToViewHistory(carId);
     }
     
-    // Закрываем предыдущее модальное окно
     closeModal();
     
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.id = 'carModal';
+    
+    const carReviews = reviews.filter(r => r.carId === car.id);
+    const averageRating = carReviews.length > 0 
+        ? (carReviews.reduce((sum, r) => sum + r.rating, 0) / carReviews.length).toFixed(1)
+        : 0;
     
     modal.innerHTML = `
         <div class="modal-content">
@@ -193,10 +286,18 @@ function showCarDetails(carId) {
                 <div class="car-detail-image">
                     <img src="${car.image}" alt="${car.brand} ${car.model}" onerror="this.src='https://via.placeholder.com/800x400?text=${car.brand}+${car.model}'">
                 </div>
-                <div style="margin: 20px 0;">
-                    <h2 style="color: #667eea;">${formatPrice(car.price)}</h2>
-                    <p style="color: #666;">${car.year} год выпуска</p>
+                <div style="margin: 20px 0; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 style="color: #667eea;">${formatPrice(car.price)}</h2>
+                        <p style="color: #666;">${car.year} год выпуска</p>
+                    </div>
+                    <div class="rating-stars" style="font-size: 20px;">
+                        ${generateStarRating(averageRating)}
+                        <span class="average-rating" style="font-size: 18px;">${averageRating}</span>
+                        <span class="reviews-count">(${carReviews.length} отзывов)</span>
+                    </div>
                 </div>
+                
                 <h3>Характеристики</h3>
                 <div class="specs-grid">
                     <div class="spec-item-detail">
@@ -224,23 +325,289 @@ function showCarDetails(carId) {
                         <span class="spec-value-detail">${car.consumption} л/100км</span>
                     </div>
                 </div>
-                <div style="margin-top: 30px; display: flex; gap: 15px;">
+                
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
                     <button class="btn btn-primary" style="flex: 1;" onclick="openTestDriveModal(${car.id})">Записаться на тест-драйв</button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="open3DTour(${car.id})">
+                        <i class="fas fa-vr-cardboard"></i> 3D Тур
+                    </button>
                     <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal()">Закрыть</button>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Отзывы владельцев</h3>
+                        ${currentUser ? 
+                            `<button class="btn-write-review" onclick="openReviewModal(${car.id}, '${car.brand} ${car.model}'); closeModal();">
+                                <i class="fa-regular fa-star"></i> Написать отзыв
+                            </button>` : 
+                            `<button class="btn-secondary" onclick="openAuthModal()">Войдите, чтобы оставить отзыв</button>`
+                        }
+                    </div>
+                    
+                    <div class="reviews-list">
+                        ${generateReviewsHTML(car.id)}
+                    </div>
                 </div>
             </div>
         </div>
     `;
     
     document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
 }
 
-// Закрытие модального окна
 function closeModal() {
     const modal = document.getElementById('carModal');
     if (modal) {
         modal.remove();
+        document.body.style.overflow = 'auto';
     }
+}
+
+function generateReviewsHTML(carId) {
+    const carReviews = reviews.filter(r => r.carId === carId);
+    
+    if (carReviews.length === 0) {
+        return `
+            <div style="text-align: center; padding: 40px;">
+                <i class="fa-regular fa-star" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
+                <p style="color: #999; font-size: 18px;">У этого автомобиля пока нет отзывов</p>
+                <p style="color: #666; margin-top: 10px;">Будьте первым, кто поделится опытом!</p>
+            </div>
+        `;
+    }
+    
+    return carReviews.sort((a, b) => new Date(b.date) - new Date(a.date)).map(review => {
+        const user = users.find(u => u.id === review.userId) || { firstName: 'Пользователь', lastName: '' };
+        
+        return `
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-author">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="review-author-info">
+                            <h4>${user.firstName} ${user.lastName}</h4>
+                            <span>${new Date(review.date).toLocaleDateString('ru-RU')}</span>
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        ${Array(5).fill().map((_, i) => 
+                            `<i class="${i < review.rating ? 'fa-solid' : 'fa-regular'} fa-star"></i>`
+                        ).join('')}
+                    </div>
+                </div>
+                <h4 class="review-title">${review.title}</h4>
+                <p class="review-text">${review.text}</p>
+                ${(review.pros || review.cons) ? `
+                    <div class="review-pros-cons">
+                        ${review.pros ? `
+                            <div class="review-pros">
+                                <span>Достоинства</span>
+                                <p>${review.pros}</p>
+                            </div>
+                        ` : ''}
+                        ${review.cons ? `
+                            <div class="review-cons">
+                                <span>Недостатки</span>
+                                <p>${review.cons}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+// ==================== 3D ТУР ====================
+
+let currentPannellumViewer = null;
+let pannellumLoaded = false;
+
+function loadPannellum() {
+    return new Promise((resolve, reject) => {
+        if (window.pannellum) {
+            pannellumLoaded = true;
+            resolve();
+            return;
+        }
+
+        if (!document.querySelector('link[href*="pannellum.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css';
+            document.head.appendChild(link);
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js';
+        script.onload = () => {
+            pannellumLoaded = true;
+            resolve();
+        };
+        script.onerror = () => {
+            reject(new Error('Не удалось загрузить библиотеку 3D-тура'));
+        };
+        document.head.appendChild(script);
+    });
+}
+
+async function open3DTour(carId) {
+    const car = carsData.find(c => c.id === carId);
+    if (!car) return;
+
+    try {
+        showNotification('Загрузка 3D-тура...', 'info');
+
+        if (!pannellumLoaded) {
+            await loadPannellum();
+        }
+
+        closeModal();
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.id = 'tourModal';
+        
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 1200px;">
+                <div class="modal-header" style="background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);">
+                    <h2><i class="fas fa-vr-cardboard"></i> 3D Тур: ${car.brand} ${car.model}</h2>
+                    <button class="close-btn" onclick="closeTourModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="tour-controls">
+                        <button class="tour-control-btn active" onclick="switchTourScene('exterior', ${carId}, this)">
+                            <i class="fas fa-car"></i> Экстерьер
+                        </button>
+                        <button class="tour-control-btn" onclick="switchTourScene('interior', ${carId}, this)">
+                            <i class="fas fa-chair"></i> Салон
+                        </button>
+                        <button class="tour-control-btn" onclick="switchTourScene('engine', ${carId}, this)">
+                            <i class="fas fa-engine"></i> Двигатель
+                        </button>
+                    </div>
+                    
+                    <div id="panorama-container" class="tour-container">
+                        <div class="loading-spinner"></div>
+                        <p style="text-align: center; margin-top: 20px;">Загрузка панорамы...</p>
+                    </div>
+                    
+                    <p style="text-align: center; color: #666; margin-top: 15px;">
+                        <i class="fas fa-mouse"></i> Перетаскивайте мышкой для осмотра | 
+                        <i class="fas fa-search-plus"></i> Колесико мыши для приближения
+                    </p>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+        
+        setTimeout(() => {
+            initPannellum('exterior', carId);
+        }, 100);
+        
+    } catch (error) {
+        showNotification('Не удалось загрузить 3D-тур', 'error');
+    }
+}
+
+function initPannellum(sceneType, carId) {
+    const car = carsData.find(c => c.id === carId);
+    
+    const imageUrl = car.image360 || car.image;
+    
+    const container = document.getElementById('panorama-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const panoramaDiv = document.createElement('div');
+    panoramaDiv.id = 'pannellum-viewer';
+    panoramaDiv.style.width = '100%';
+    panoramaDiv.style.height = '100%';
+    container.appendChild(panoramaDiv);
+    
+    if (currentPannellumViewer) {
+        try {
+            currentPannellumViewer.destroy();
+        } catch (e) {}
+    }
+    
+    if (!window.pannellum) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 50px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #f56565; margin-bottom: 15px;"></i>
+                <p style="color: #666; font-size: 18px;">Библиотека 3D-тура не загружена</p>
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="location.reload()">
+                    <i class="fas fa-redo"></i> Обновить страницу
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    const config = {
+        type: 'equirectangular',
+        panorama: imageUrl,
+        autoLoad: true,
+        autoRotate: -2,
+        compass: true,
+        showZoomCtrl: true,
+        keyboardZoom: true,
+        mouseZoom: true,
+        draggable: true,
+        hotSpots: []
+    };
+    
+    try {
+        currentPannellumViewer = window.pannellum.viewer('pannellum-viewer', config);
+        showNotification(`3D тур загружен`, 'success');
+    } catch (error) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 50px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #f56565; margin-bottom: 15px;"></i>
+                <p style="color: #666; font-size: 18px;">Ошибка при создании 3D-тура</p>
+                <p style="color: #999; margin-top: 10px;">Для 3D-тура нужны специальные 360° фотографии</p>
+            </div>
+        `;
+    }
+}
+
+function switchTourScene(sceneType, carId, button) {
+    document.querySelectorAll('.tour-control-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    button.classList.add('active');
+    
+    const container = document.getElementById('panorama-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="loading-spinner"></div>
+            <p style="text-align: center; margin-top: 20px;">Загрузка...</p>
+        `;
+    }
+    
+    setTimeout(() => {
+        initPannellum(sceneType, carId);
+    }, 300);
+}
+
+function closeTourModal() {
+    if (currentPannellumViewer) {
+        try {
+            currentPannellumViewer.destroy();
+        } catch (e) {}
+        currentPannellumViewer = null;
+    }
+    
+    const modal = document.getElementById('tourModal');
+    if (modal) {
+        modal.remove();
+    }
+    document.body.style.overflow = 'auto';
 }
 
 // ==================== АВТОРИЗАЦИЯ ====================
@@ -293,6 +660,10 @@ function login(event) {
         updateUIForLoggedInUser();
         closeAuthModal();
         showNotification('Добро пожаловать, ' + user.firstName + '!', 'success');
+        
+        if (user.role === 'admin') {
+            showNotification('Вы вошли как администратор', 'info');
+        }
     } else {
         showNotification('Неверный email или пароль', 'error');
     }
@@ -331,6 +702,7 @@ function register(event) {
         email,
         phone,
         password,
+        role: 'user',
         registrationDate: new Date().toISOString()
     };
     
@@ -362,6 +734,7 @@ function updateUIForLoggedInUser() {
         userMenu.style.display = 'block';
         userNameDisplay.textContent = `${currentUser.firstName}`;
         displayCars();
+        addAdminButtonToHeader();
     }
 }
 
@@ -1083,6 +1456,122 @@ function performSearch() {
     }
 }
 
+// ==================== ОТЗЫВЫ ====================
+
+function openReviewModal(carId, carName) {
+    if (!currentUser) {
+        showNotification('Необходимо войти в систему', 'error');
+        openAuthModal();
+        return;
+    }
+    
+    document.getElementById('reviewCarId').value = carId;
+    document.getElementById('carModelDisplay').value = carName;
+    document.getElementById('reviewRating').value = 0;
+    document.getElementById('reviewTitle').value = '';
+    document.getElementById('reviewText').value = '';
+    document.getElementById('reviewPros').value = '';
+    document.getElementById('reviewCons').value = '';
+    
+    document.querySelectorAll('.rating-input i').forEach(star => {
+        star.className = 'fa-regular fa-star';
+    });
+    
+    document.getElementById('reviewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function initRatingStars() {
+    const stars = document.querySelectorAll('.rating-input i');
+    const ratingInput = document.getElementById('reviewRating');
+    
+    if (!stars.length || !ratingInput) return;
+    
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.dataset.rating);
+            ratingInput.value = rating;
+            
+            stars.forEach((s, index) => {
+                if (index < rating) {
+                    s.className = 'fa-solid fa-star selected';
+                } else {
+                    s.className = 'fa-regular fa-star';
+                }
+            });
+        });
+        
+        star.addEventListener('mouseover', function() {
+            const rating = parseInt(this.dataset.rating);
+            stars.forEach((s, index) => {
+                if (index < rating) {
+                    s.className = 'fa-solid fa-star';
+                } else {
+                    s.className = 'fa-regular fa-star';
+                }
+            });
+        });
+        
+        star.addEventListener('mouseout', function() {
+            const currentRating = parseInt(ratingInput.value);
+            stars.forEach((s, index) => {
+                if (index < currentRating) {
+                    s.className = 'fa-solid fa-star selected';
+                } else {
+                    s.className = 'fa-regular fa-star';
+                }
+            });
+        });
+    });
+}
+
+function submitReview(event) {
+    event.preventDefault();
+    
+    const carId = parseInt(document.getElementById('reviewCarId').value);
+    const rating = parseInt(document.getElementById('reviewRating').value);
+    const title = document.getElementById('reviewTitle').value;
+    const text = document.getElementById('reviewText').value;
+    const pros = document.getElementById('reviewPros').value;
+    const cons = document.getElementById('reviewCons').value;
+    
+    if (rating === 0) {
+        showNotification('Пожалуйста, поставьте оценку', 'error');
+        return;
+    }
+    
+    const newReview = {
+        id: Date.now(),
+        carId: carId,
+        userId: currentUser.id,
+        rating: rating,
+        title: title,
+        text: text,
+        pros: pros,
+        cons: cons,
+        date: new Date().toISOString()
+    };
+    
+    reviews.push(newReview);
+    localStorage.setItem('carReviews', JSON.stringify(reviews));
+    
+    showNotification('Спасибо! Ваш отзыв опубликован', 'success');
+    closeReviewModal();
+    
+    displayCars();
+    if (document.getElementById('carModal')) {
+        const car = carsData.find(c => c.id === carId);
+        if (car) {
+            showCarDetails(carId);
+        }
+    }
+}
+
 // ==================== УВЕДОМЛЕНИЯ ====================
 
 function showNotification(message, type = 'info') {
@@ -1134,24 +1623,115 @@ function checkSavedSession() {
     }
 }
 
+// ==================== АДМИН-ПАНЕЛЬ ====================
+
+function loginAsAdmin(email, password) {
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+        if (user.role === 'admin') {
+            const { password, ...adminData } = user;
+            sessionStorage.setItem('adminUser', JSON.stringify(adminData));
+            window.location.href = 'admin.html';
+            return true;
+        } else {
+            showNotification('У вас нет прав администратора', 'error');
+            return false;
+        }
+    }
+    return false;
+}
+
+function addAdminButtonToHeader() {
+    const userMenu = document.getElementById('userMenu');
+    if (userMenu && currentUser && currentUser.role === 'admin') {
+        const adminLink = document.createElement('a');
+        adminLink.href = '#';
+        adminLink.onclick = function(e) {
+            e.preventDefault();
+            window.location.href = 'admin.html';
+        };
+        adminLink.innerHTML = '<i class="fas fa-cog"></i> Админ-панель';
+        
+        const dropdown = document.getElementById('userDropdown');
+        const divider = dropdown.querySelector('.dropdown-divider');
+        dropdown.insertBefore(adminLink, divider);
+    }
+}
+
+// ==================== ЗАГРУЗКА НАСТРОЕК ====================
+
+function loadSettings() {
+    if (siteSettings.siteName) {
+        document.title = siteSettings.siteName;
+    }
+    
+    const contactsSection = document.getElementById('contactsSection');
+    if (contactsSection) {
+        const phoneP = contactsSection.querySelector('p:first-child');
+        const emailP = contactsSection.querySelector('p:nth-child(2)');
+        const addressP = contactsSection.querySelector('p:last-child');
+        
+        if (siteSettings.sitePhone && phoneP) {
+            phoneP.innerHTML = `<i class="fas fa-phone"></i> ${siteSettings.sitePhone}`;
+        }
+        if (siteSettings.siteEmail && emailP) {
+            emailP.innerHTML = `<i class="fas fa-envelope"></i> ${siteSettings.siteEmail}`;
+        }
+        if (siteSettings.siteAddress && addressP) {
+            addressP.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${siteSettings.siteAddress}`;
+        }
+    }
+    
+    const socialLinks = document.getElementById('socialLinks');
+    if (socialLinks && siteSettings.social) {
+        const links = socialLinks.querySelectorAll('a');
+        if (siteSettings.social.facebook) links[0].href = siteSettings.social.facebook;
+        if (siteSettings.social.instagram) links[1].href = siteSettings.social.instagram;
+        if (siteSettings.social.youtube) links[2].href = siteSettings.social.youtube;
+        if (siteSettings.social.telegram) links[3].href = siteSettings.social.telegram;
+    }
+}
+
+// ==================== СЛУШАЕМ ИЗМЕНЕНИЯ В АДМИН-ПАНЕЛИ ====================
+window.addEventListener('storage', function(e) {
+    if (e.key === 'carsDataUpdated') {
+        // Обновляем данные
+        carsData = JSON.parse(localStorage.getItem('carsData') || '[]');
+        displayCars();
+        
+        // Обновляем фильтры
+        updateBrandsFilter();
+        updateYearFilter();
+        loadBrands();
+        
+        console.log('Данные обновлены из админ-панели');
+    }
+});
+
 // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
 document.addEventListener('DOMContentLoaded', function() {
     displayCars();
+    loadBrands();
+    updateBrandsFilter();
+    updateYearFilter();
     initPhoneMask();
     checkSavedSession();
     updateComparisonBadge();
+    initRatingStars();
+    loadSettings();
     
-    // Закрытие выпадающего меню
+    loadPannellum().catch(err => console.log('Pannellum будет загружен при необходимости'));
+    
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.user-menu')) {
             closeUserDropdown();
         }
     });
     
-    // Закрытие модальных окон по клику вне их
     document.addEventListener('click', function(e) {
-        const modals = ['authModal', 'profileModal', 'favoritesModal', 'historyModal', 'testDriveHistoryModal', 'compareModal', 'testDriveModal'];
+        const modals = ['authModal', 'profileModal', 'favoritesModal', 'historyModal', 'testDriveHistoryModal', 'compareModal', 'testDriveModal', 'reviewModal'];
         
         modals.forEach(modalId => {
             const modal = document.getElementById(modalId);
@@ -1163,15 +1743,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 else if (modalId === 'testDriveHistoryModal') closeTestDriveHistoryModal();
                 else if (modalId === 'compareModal') closeCompareModal();
                 else if (modalId === 'testDriveModal') closeTestDriveModal();
+                else if (modalId === 'reviewModal') closeReviewModal();
             }
         });
         
         if (e.target.classList.contains('modal') && e.target.id === 'carModal') {
             closeModal();
         }
+        
+        if (e.target.classList.contains('modal') && e.target.id === 'tourModal') {
+            closeTourModal();
+        }
     });
     
-    // Закрытие по Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeAuthModal();
@@ -1181,11 +1765,12 @@ document.addEventListener('DOMContentLoaded', function() {
             closeTestDriveHistoryModal();
             closeCompareModal();
             closeTestDriveModal();
+            closeReviewModal();
             closeModal();
+            closeTourModal();
         }
     });
     
-    // Плавная прокрутка
     document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
